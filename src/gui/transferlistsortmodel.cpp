@@ -47,14 +47,22 @@ namespace
         return (left < right) ? -1 : 1;
     }
 
-    int customCompare(const QDateTime &left, const QDateTime &right)
+    int customCompare(const QDateTime &left, const QDateTime &right, const Qt::SortOrder order)
     {
         const bool isLeftValid = left.isValid();
         const bool isRightValid = right.isValid();
+        const bool isAscending = order == Qt::AscendingOrder;
 
-        if (isLeftValid == isRightValid)
-            return threeWayCompare(left, right);
-        return isLeftValid ? -1 : 1;
+        if (!isLeftValid && !isRightValid)
+            return 0;
+
+        if (!isLeftValid)
+            return isAscending ? 1 : -1;
+
+        if (!isRightValid)
+            return isAscending ? -1 : 1;
+
+        return threeWayCompare(left, right);
     }
 
     int customCompare(const TagSet &left, const TagSet &right, const Utils::Compare::NaturalCompare<Qt::CaseInsensitive> &compare)
@@ -259,7 +267,7 @@ int TransferListSortModel::compare(const QModelIndex &left, const QModelIndex &r
     case TransferListModel::TR_ADD_DATE:
     case TransferListModel::TR_SEED_DATE:
     case TransferListModel::TR_SEEN_COMPLETE_DATE:
-        return customCompare(leftValue.toDateTime(), rightValue.toDateTime());
+        return customCompare(leftValue.toDateTime(), rightValue.toDateTime(), sortOrder());
 
     case TransferListModel::TR_DLLIMIT:
     case TransferListModel::TR_DLSPEED:
