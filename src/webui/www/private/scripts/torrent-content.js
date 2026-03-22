@@ -483,6 +483,17 @@ window.qBittorrent.TorrentContent ??= (() => {
                     }
                 },
 
+                CopyURL: (element, ref) => {
+                    const nodes = torrentFilesTable.selectedRowsIds().map(row => torrentFilesTable.getNode(row));
+                    let baseUrl = window.qBittorrent.Cache.preferences.get().web_ui_base_url ?? window.location.href;
+                    if (!baseUrl.endsWith("/")) {
+                        baseUrl = baseUrl + "/";
+                    }
+
+                    const urls = nodes.map(node => baseUrl + node.path);
+                    clipboardCopy(urls.join("\n"));
+                },
+
                 FilePrioIgnore: (element, ref) => {
                     filesPriorityMenuClicked(FilePriority.Ignored);
                 },

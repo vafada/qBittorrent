@@ -332,6 +332,7 @@ void AppController::preferencesAction()
     data[u"web_ui_domain_list"_s] = pref->getServerDomains();
     data[u"web_ui_address"_s] = pref->getWebUIAddress();
     data[u"web_ui_port"_s] = pref->getWebUIPort();
+    data[u"web_ui_base_url"_s] = pref->getWebUIBaseURL();
     data[u"web_ui_upnp"_s] = pref->useUPnPForWebUIPort();
     data[u"use_https"_s] = pref->isWebUIHttpsEnabled();
     data[u"web_ui_https_cert_path"_s] = pref->getWebUIHttpsCertificatePath().toString();
@@ -895,6 +896,8 @@ void AppController::setPreferencesAction()
         pref->setWebUIAddress(it.value().toString());
     if (hasKey(u"web_ui_port"_s))
         pref->setWebUIPort(it.value().value<quint16>());
+    if (hasKey(u"web_ui_base_url"_s))
+        pref->setWebUIBaseURL(it.value().toString());
     if (hasKey(u"web_ui_upnp"_s))
         pref->setUPnPForWebUIPort(it.value().toBool());
     if (hasKey(u"use_https"_s))
