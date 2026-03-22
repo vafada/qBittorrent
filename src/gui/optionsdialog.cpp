@@ -1360,6 +1360,7 @@ void OptionsDialog::loadWebUITabOptions()
     m_ui->checkWebUI->setChecked(pref->isWebUIEnabled());
     m_ui->textWebUIAddress->setText(pref->getWebUIAddress());
     m_ui->spinWebUIPort->setValue(pref->getWebUIPort());
+    m_ui->textWebUIBaseUrl->setText(pref->getWebUIBaseURL());
     m_ui->checkWebUIUPnP->setChecked(pref->useUPnPForWebUIPort());
     m_ui->checkWebUIHttps->setChecked(pref->isWebUIHttpsEnabled());
     webUIHttpsCertChanged(pref->getWebUIHttpsCertificatePath());
@@ -1404,6 +1405,7 @@ void OptionsDialog::loadWebUITabOptions()
     connect(m_ui->checkWebUI, &QGroupBox::toggled, this, &ThisType::enableApplyButton);
     connect(m_ui->textWebUIAddress, &QLineEdit::textChanged, this, &ThisType::enableApplyButton);
     connect(m_ui->spinWebUIPort, qSpinBoxValueChanged, this, &ThisType::enableApplyButton);
+    connect(m_ui->textWebUIBaseUrl, &QLineEdit::textChanged, this, &ThisType::enableApplyButton);
     connect(m_ui->checkWebUIUPnP, &QAbstractButton::toggled, this, &ThisType::enableApplyButton);
     connect(m_ui->checkWebUIHttps, &QGroupBox::toggled, this, &ThisType::enableApplyButton);
     connect(m_ui->textWebUIHttpsCert, &FileSystemPathLineEdit::selectedPathChanged, this, &ThisType::enableApplyButton);
@@ -1455,6 +1457,7 @@ void OptionsDialog::saveWebUITabOptions() const
     pref->setWebUIEnabled(webUIEnabled);
     pref->setWebUIAddress(m_ui->textWebUIAddress->text());
     pref->setWebUIPort(m_ui->spinWebUIPort->value());
+    pref->setWebUIBaseURL(m_ui->textWebUIBaseUrl->text());
     pref->setUPnPForWebUIPort(m_ui->checkWebUIUPnP->isChecked());
     pref->setWebUIHttpsEnabled(m_ui->checkWebUIHttps->isChecked());
     pref->setWebUIHttpsCertificatePath(m_ui->textWebUIHttpsCert->selectedPath());

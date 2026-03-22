@@ -864,6 +864,19 @@ void Preferences::setWebUIPort(const quint16 port)
     setValue(u"Preferences/WebUI/Port"_s, static_cast<int>(port));
 }
 
+QString Preferences::getWebUIBaseURL() const
+{
+    return value<QString>(u"Preferences/WebUI/BaseURL"_s, u""_s).trimmed();
+}
+
+void Preferences::setWebUIBaseURL(const QString &url)
+{
+    if (url == getWebUIBaseURL())
+        return;
+
+    setValue(u"Preferences/WebUI/BaseURL"_s, url.trimmed());
+}
+
 bool Preferences::useUPnPForWebUIPort() const
 {
     return value(u"Preferences/WebUI/UseUPnP"_s, false);
