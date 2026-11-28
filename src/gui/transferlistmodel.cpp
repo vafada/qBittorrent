@@ -362,21 +362,12 @@ QString TransferListModel::displayValue(const BitTorrent::Torrent *torrent, cons
         return Utils::Misc::userFriendlyDuration(time);
     };
 
-    const auto privateString = [hideValues](const bool isPrivate, const bool hasMetadata) -> QString
+    const auto yesNoString = [hideValues](const bool value, const bool hasMetadata) -> QString
     {
-        if (hideValues && !isPrivate)
+        if (hideValues && !value)
             return {};
         if (hasMetadata)
-            return isPrivate ? tr("Yes") : tr("No");
-        return tr("N/A");
-    };
-
-    const auto superSeedingString = [hideValues](const bool superSeeding, const bool hasMetadata) -> QString
-    {
-        if (hideValues && !superSeeding)
-            return {};
-        if (hasMetadata)
-            return superSeeding ? tr("Yes") : tr("No");
+            return value ? tr("Yes") : tr("No");
         return tr("N/A");
     };
 
@@ -457,9 +448,9 @@ QString TransferListModel::displayValue(const BitTorrent::Torrent *torrent, cons
     case TR_REANNOUNCE:
         return reannounceString(torrent->nextAnnounce());
     case TR_PRIVATE:
-        return privateString(torrent->isPrivate(), torrent->hasMetadata());
+        return yesNoString(torrent->isPrivate(), torrent->hasMetadata());
     case TR_SUPER_SEEDING:
-        return superSeedingString(torrent->superSeeding(), torrent->hasMetadata());
+        return yesNoString(torrent->superSeeding(), torrent->hasMetadata());
     }
 
     return {};
