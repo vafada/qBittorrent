@@ -77,6 +77,7 @@ window.qBittorrent.PropGeneral ??= (() => {
         document.getElementById("save_path").textContent = "";
         document.getElementById("comment").textContent = "";
         document.getElementById("private").textContent = "";
+        document.getElementById("super_seeding").textContent = "";
         piecesBar.clear();
         availabilityBar.clear();
         document.getElementById("propAvailabilityWrapper").style.display = "none";
