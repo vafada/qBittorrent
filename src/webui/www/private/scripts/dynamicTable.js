@@ -1355,6 +1355,18 @@ window.qBittorrent.DynamicTable ??= (() => {
                 td.title = infohash;
             };
 
+            const displayYesNo = function(td, row) {
+                const hasMetadata = row["full_data"].has_metadata;
+                const value = this.getRowValue(row);
+                const string = hasMetadata
+                    ? (value
+                        ? "QBT_TR(Yes)QBT_TR[CONTEXT=PropertiesWidget]"
+                        : "QBT_TR(No)QBT_TR[CONTEXT=PropertiesWidget]")
+                    : "QBT_TR(N/A)QBT_TR[CONTEXT=PropertiesWidget]";
+                td.textContent = string;
+                td.title = string;
+            };
+
             // state_icon
             this.columns["state_icon"].updateTd = function(td, row) {
                 const state = this.getRowValue(row);
@@ -1617,31 +1629,9 @@ window.qBittorrent.DynamicTable ??= (() => {
                 td.title = time;
             };
 
-            // private
-            this.columns["private"].updateTd = function(td, row) {
-                const hasMetadata = row["full_data"].has_metadata;
-                const isPrivate = this.getRowValue(row);
-                const string = hasMetadata
-                    ? (isPrivate
-                        ? "QBT_TR(Yes)QBT_TR[CONTEXT=PropertiesWidget]"
-                        : "QBT_TR(No)QBT_TR[CONTEXT=PropertiesWidget]")
-                    : "QBT_TR(N/A)QBT_TR[CONTEXT=PropertiesWidget]";
-                td.textContent = string;
-                td.title = string;
-            };
-
-            // super seeding
-            this.columns["super_seeding"].updateTd = function(td, row) {
-                const hasMetadata = row["full_data"].has_metadata;
-                const superSeeding = this.getRowValue(row);
-                const string = hasMetadata
-                    ? (superSeeding
-                        ? "QBT_TR(Yes)QBT_TR[CONTEXT=PropertiesWidget]"
-                        : "QBT_TR(No)QBT_TR[CONTEXT=PropertiesWidget]")
-                    : "QBT_TR(N/A)QBT_TR[CONTEXT=PropertiesWidget]";
-                td.textContent = string;
-                td.title = string;
-            };
+            // private, super_seeding
+            this.columns["private"].updateTd = displayYesNo;
+            this.columns["super_seeding"].updateTd = displayYesNo;
         }
 
         applyFilter(row, filterName, category, tag, trackerHost, filterTerms) {
